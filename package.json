@@ -1,0 +1,13 @@
+{
+  "name": "node-express-crud",
+  "description": "creating a node-express-crud app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.x",
+    "knex": "0.6.20",
+    "bookshelf": "0.7.6",
+    "pg": "3.3.0",
+    "body-parser": "1.4.3"
+  }
+}
