@@ -5,14 +5,25 @@
   <title>Node Express Crud Example</title>
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/underscore.js"></script>
+  <script src="/javascripts/backbone.js"></script>
   <script src="app.js"></script>
+
 </head>
 <body>
-  <form action="/users" class="new-user-form">
-    <input type="text" class="user-name" placeholder="name" >
+  <form class="new-user-form">
+    <input type="text" class="new-user-name" placeholder="name" >
     <input type="submit">
   </form>
-  <ul class="newUser">
+  <form class="edit-user-form">
+    <input type="text" class="edit-user-name" placeholder="old name" >
+    <input type="text" class="new-edituser-name" placeholder="new name" >
+    <button type="submit">Submit Edit</button>
+  </form>
+  <form class="delete-user-form">
+    <input type="text" class="delete-user-name" placeholder="name" >
+    <button type="submit">Delete</button>
+  </form>
+  <ul class="users">
 
   </ul>
 </body>

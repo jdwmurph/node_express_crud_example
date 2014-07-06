@@ -7,16 +7,20 @@ var knex = require('knex')({
     database: 'node_express_crud_example'
   }
 });
-var path        = require('path');
+
+var path = require('path');
 var bookshelf = require('bookshelf')(knex);
+var methodOverride = require ('method-override');
 
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('bookshelf', bookshelf);
+app.use(methodOverride());
 
 app.get('/users', function(req, res){
   var bookshelf = app.get('bookshelf');
@@ -28,40 +32,30 @@ app.get('/users', function(req, res){
   });
 });
 
-app.get('/authors/:id', function(req, res){
+app.post('/users', function(req, res){
   var bookshelf = app.get('bookshelf');
   var User = bookshelf.Model.extend({
-  tableName: 'users'
+    tableName: 'users'
   });
-  User.where({id: req.params.id}).fetch().then(function(collection){
-    res.send(collection);
-  });
-});
-
-
-app.post('/users', function(req, res){
-
-  console.log(req.body);
-  var bookshelf = app.get('bookshelf');
-
-  var Author = bookshelf.Model.extend({
-    tableName: 'authors'
-  });
-
-  var newAuthor = new Author({name: req.body.authorName})
-
-  newAuthor.save().then(function(model){
+  var newUser = new User({name: req.body.name})
+  newUser.save().then(function(model){
     res.send(model);
   })
 })
 
-var server = app.listen(3000, function(){
-  console.log('listening on port %d', server.address().port);
+app.delete('/users', function(req, res){
+  var bookshelf = app.get('bookshelf');
+  var User = bookshelf.Model.extend({
+    tableName: 'users'
+  });
+  User.where({name: req.body.name}).fetch().then(function(model){
+    var returnModel = model
+    model.destroy()
+    res.send(returnModel)
+  });
 })
 
 
-// var firstAuthor = Author.where({id: 15}).fetch().then(
-//   function(model){
-//     //logic goes here
-//     console.log(model)
-//   });
+var server = app.listen(3000, function(){
+  console.log('listening on port %d', server.address().port);
+})
