@@ -27,12 +27,28 @@ function createNewUser(){
     })
 }
 
+function editUser(){
+    var userName = $('.edit-user-name').val()
+    var newUserName = $('.new-edit-user-name').val()
+    $('.edit-user-name').val('')
+    $('.new-edit-user-name').val('')
+    $.ajax({
+      url: '/users/:id',
+      method: 'put',
+      dataType: 'json',
+      data: {name: userName, newName: newUserName},
+      success: function(){
+        displayUsers()
+      }
+    })
+}
+
 function deleteUser(){
     var deleteUserName = $('.delete-user-name').val()
     $('.delete-user-name').val('')
     console.log('delete ' + deleteUserName)
     $.ajax({
-      url: '/users',
+      url: '/users/:id',
       method: 'delete',
       dataType: 'json',
       data: {name: deleteUserName},
@@ -52,6 +68,11 @@ function initialize(){
   $('.delete-user-form').on('submit', function(e){
     e.preventDefault();
     deleteUser();
+  })
+
+  $('.edit-user-form').on('submit', function(e){
+    e.preventDefault();
+    editUser();
   })
 }
 

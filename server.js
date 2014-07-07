@@ -43,7 +43,20 @@ app.post('/users', function(req, res){
   })
 })
 
-app.delete('/users', function(req, res){
+app.put('/users/:id', function(req, res){
+  console.log(req.body)
+  var bookshelf = app.get('bookshelf');
+  var User = bookshelf.Model.extend({
+    tableName: 'users'
+  });
+  User.where({name: req.body.name}).fetch().then(function(model){
+    model.set('name', req.body.newName);
+    model.save();
+    res.send(model);
+  });
+})
+
+app.delete('/users/:id', function(req, res){
   var bookshelf = app.get('bookshelf');
   var User = bookshelf.Model.extend({
     tableName: 'users'
